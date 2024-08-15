@@ -5,12 +5,12 @@ class WhackAMole < Gosu::Window
     super(800, 600)
     self.caption = "Whack the Mole!"
     @image = Gosu::Image.new("assets/Mole.png")
-    @x = 500
-    @y = 500
-    @width = 100
-    @height = 80
-    @velocity_x = 0.5
-    @velocity_y = 0.5
+    @x = 200
+    @y = 200
+    @width = 50
+    @height = 43
+    @velocity_x = 5
+    @velocity_y = 5
     @visible = 0
     @mallet_image = Gosu::Image.new("assets/Mallet.png")
     @hit = 0
@@ -23,10 +23,10 @@ class WhackAMole < Gosu::Window
     @mallet_image.draw(mouse_x - 40, mouse_y - 40, 1)
     if @hit == 0
       c = Gosu::Color::NONE
-      elsif @hit == 1
-        c = Gosu::Color::GREEN
-      elsif @hit == -1
-        c = Gosu::Color::RED
+    elsif @hit == 1
+      c = Gosu::Color::GREEN
+    elsif @hit == -1
+      c = Gosu::Color::RED
     end
     draw_quad(0, 0, c, 800, 0, c, 800, 600, c, 0, 600, c)
     @hit = 0
