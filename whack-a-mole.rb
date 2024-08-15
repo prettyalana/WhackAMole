@@ -12,12 +12,14 @@ class WhackAMole < Gosu::Window
     @velocity_x = 2
     @velocity_y = 2
     @visible = 0
+    @mallet_image = Gosu::Image.new('assets/Mallet.png')
   end
 
   def draw
     if @visible > 0
       @image.draw(@x - width / 2, @y - @height / 2, 1)
     end
+    @mallet_image.draw(mouse_x - 40, mouse_y - 40, 1)
   end
 
   def update
