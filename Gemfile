@@ -5,3 +5,4 @@ ruby "3.3.1"
 
 gem "gosu"
 gem "chipmunk"
+gem "solargraph"
