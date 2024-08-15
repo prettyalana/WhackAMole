@@ -23,7 +23,7 @@ class WhackAMole < Gosu::Window
     if @visible > 0
       @image.draw(@x - @width / 2, @y - @height / 2, 1)
     end
-    @mallet_image.draw(mouse_x - 40, mouse_y - 40, 1)
+    @mallet_image.draw(mouse_x - 40, mouse_y - 10, 1)
     if @hit == 0
       c = Gosu::Color::NONE
     elsif @hit == 1
