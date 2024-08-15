@@ -1,18 +1,19 @@
-require 'gosu'
+require "gosu"
 
 class WhackAMole < Gosu::Window
   def initialize
     super(800, 600)
     self.caption = "Whack the Mole!"
-    @image = Gosu::Image.new('assets/Mole.png')
+    @image = Gosu::Image.new("assets/Mole.png")
     @x = 500
     @y = 500
-    @width = 50
-    @height = 43
-    @velocity_x = 2
-    @velocity_y = 2
+    @width = 100
+    @height = 80
+    @velocity_x = 0.5
+    @velocity_y = 0.5
     @visible = 0
-    @mallet_image = Gosu::Image.new('assets/Mallet.png')
+    @mallet_image = Gosu::Image.new("assets/Mallet.png")
+    @hit = 0
   end
 
   def draw
@@ -20,6 +21,15 @@ class WhackAMole < Gosu::Window
       @image.draw(@x - width / 2, @y - @height / 2, 1)
     end
     @mallet_image.draw(mouse_x - 40, mouse_y - 40, 1)
+    if @hit == 0
+      c = Gosu::Color::NONE
+      elsif @hit == 1
+        c = Gosu::Color::GREEN
+      elsif @hit == -1
+        c = Gosu::Color::RED
+    end
+    draw_quad(0, 0, c, 800, 0, c, 800, 600, c, 0, 600, c)
+    @hit = 0
   end
 
   def update
@@ -29,6 +39,16 @@ class WhackAMole < Gosu::Window
     @velocity_y *= -1 if @y + @height / 2 > 600 || @y - @height / 2 < 0
     @visible -= 1
     @visible = 30 if @visible < -10 && rand < 0.01
+  end
+
+  def button_down(id)
+    if (id == Gosu::MsLeft)
+      if Gosu.distance(mouse_x, mouse_y, @x, @y) < 50 && @visible >= 0
+        @hit = 1
+      else
+        @hit = -1
+      end
+    end
   end
 end
 
