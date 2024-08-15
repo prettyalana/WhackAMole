@@ -33,7 +33,7 @@ class WhackAMole < Gosu::Window
     end
     draw_quad(0, 0, c, 800, 0, c, 800, 600, c, 0, 600, c)
     @hit = 0
-    @font.draw(@time_left.to_s, 20, 2)
+    @font.draw(@time_left.to_s, 20, 20, 2)
     if @playing != true
       @font.draw("Game Over", 300, 300, 3)
       @visible = 20
