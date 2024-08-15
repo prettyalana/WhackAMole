@@ -21,7 +21,7 @@ class WhackAMole < Gosu::Window
 
   def draw
     if @visible > 0
-      @image.draw(@x - width / 2, @y - @height / 2, 1)
+      @image.draw(@x - @width / 2, @y - @height / 2, 1)
     end
     @mallet_image.draw(mouse_x - 40, mouse_y - 40, 1)
     if @hit == 0
@@ -34,6 +34,7 @@ class WhackAMole < Gosu::Window
     draw_quad(0, 0, c, 800, 0, c, 800, 600, c, 0, 600, c)
     @hit = 0
     @font.draw(@time_left.to_s, 20, 20, 2)
+    @font.draw(@score.to_s, 700, 20, 2)
     if @playing != true
       @font.draw("Game Over", 300, 300, 3)
       @visible = 20
@@ -48,8 +49,10 @@ class WhackAMole < Gosu::Window
       @velocity_y *= -1 if @y + @height / 2 > 600 || @y - @height / 2 < 0
       @visible -= 1
       @visible = 30 if @visible < -10 && rand < 0.01
-      @time_left = (100 - (Gosu.milliseconds / 1000))
-      @playing = false if @time_left < 0
+      @time_left = (30 - (Gosu.milliseconds / 1000))
+      if @time_left <= 0
+        @playing = false
+      end
     end
   end
 
@@ -58,10 +61,7 @@ class WhackAMole < Gosu::Window
       if id == Gosu::MsLeft
         if Gosu.distance(mouse_x, mouse_y, @x, @y) < 50 && @visible >= 0
           @hit = 1
-          @score += 5
-        else
-          @hit = -1
-          @score -= 1
+          @score += 1
         end
       end
     end
