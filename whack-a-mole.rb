@@ -9,21 +9,22 @@ class WhackAMole < Gosu::Window
     @y = 200
     @width = 50
     @height = 43
-    @velocity_x = 5
-    @velocity_y = 5
+    @velocity_x = 1
+    @velocity_y = 1
     @visible = 0
     @mallet_image = Gosu::Image.new("assets/Mallet.png")
     @hit = 0
     @font = Gosu::Font.new(30)
     @score = 0
     @playing = true
+    @start_time = 0
   end
 
   def draw
     if @visible > 0
       @image.draw(@x - @width / 2, @y - @height / 2, 1)
     end
-    @mallet_image.draw(mouse_x - 40, mouse_y - 10, 1)
+    @mallet_image.draw(mouse_x - 20, mouse_y - 20, 1)
     if @hit == 0
       c = Gosu::Color::NONE
     elsif @hit == 1
@@ -37,6 +38,7 @@ class WhackAMole < Gosu::Window
     @font.draw(@score.to_s, 700, 20, 2)
     if @playing != true
       @font.draw("Game Over", 300, 300, 3)
+      @font.draw("Press Spacebar to Play Again", 175, 350, 3)
       @visible = 20
     end
   end
@@ -49,10 +51,8 @@ class WhackAMole < Gosu::Window
       @velocity_y *= -1 if @y + @height / 2 > 600 || @y - @height / 2 < 0
       @visible -= 1
       @visible = 30 if @visible < -10 && rand < 0.01
-      @time_left = (30 - (Gosu.milliseconds / 1000))
-      if @time_left <= 0
-        @playing = false
-      end
+      @time_left = (30 - ((Gosu.milliseconds - @start_time) / 1000))
+      @playing = false if @time_left <= 0
     end
   end
 
@@ -63,6 +63,13 @@ class WhackAMole < Gosu::Window
           @hit = 1
           @score += 1
         end
+      end
+    else
+      if (id == Gosu::KbSpace)
+        @playing = true
+        @visible = -10
+        @start_time = Gosu.milliseconds
+        @score = 0
       end
     end
   end
